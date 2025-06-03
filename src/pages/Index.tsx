@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -12,7 +11,7 @@ interface Extension {
   isActive: boolean;
 }
 
-const extensions: Extension[] = [
+const initialExtensions: Extension[] = [
   {
     id: "1",
     name: "DevLens",
@@ -113,13 +112,23 @@ const extensions: Extension[] = [
 
 const Index = () => {
   const [activeFilter, setActiveFilter] = useState<"all" | "active" | "inactive">("all");
+  const [extensions, setExtensions] = useState<Extension[]>(initialExtensions);
   const [extensionStates, setExtensionStates] = useState<Record<string, boolean>>(
-    extensions.reduce((acc, ext) => ({ ...acc, [ext.id]: ext.isActive }), {})
+    initialExtensions.reduce((acc, ext) => ({ ...acc, [ext.id]: ext.isActive }), {})
   );
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   const toggleExtension = (id: string) => {
     setExtensionStates(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const removeExtension = (id: string) => {
+    setExtensions(prev => prev.filter(ext => ext.id !== id));
+    setExtensionStates(prev => {
+      const newState = { ...prev };
+      delete newState[id];
+      return newState;
+    });
   };
 
   const filteredExtensions = extensions.filter(ext => {
@@ -209,6 +218,7 @@ const Index = () => {
                   <Button
                     variant="outline"
                     size="sm"
+                    onClick={() => removeExtension(extension.id)}
                     className={`rounded-lg transition-all duration-300 ${
                       isDarkMode
                         ? "border-slate-600 hover:border-slate-500 bg-slate-700/30 hover:bg-slate-600/50"
