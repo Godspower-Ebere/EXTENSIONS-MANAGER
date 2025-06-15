@@ -144,7 +144,7 @@ const Index = () => {
         <div className="space-y-8">
           {/* Title and Filters */}
           <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-bold">Extensions List</h2>
+            <h2 className="text-3xl font-bold">List</h2>
             <div className="flex gap-2">
               {["all", "active", "inactive"].map(filter => <Button key={filter} variant={activeFilter === filter ? "default" : "outline"} onClick={() => setActiveFilter(filter as typeof activeFilter)} className={`capitalize rounded-full px-6 transition-all duration-300 ${activeFilter === filter ? "bg-red-500 hover:bg-red-600 text-white border-red-500" : isDarkMode ? "border-slate-600 hover:border-slate-500 bg-slate-700/30 hover:bg-slate-600/50" : "border-gray-300 hover:border-gray-400 bg-white/30 hover:bg-white/50"}`}>
                   {filter}
